@@ -32,6 +32,7 @@ public class FieldNavigation {
         this.position = position;
         this.rotation = rotation;
         this.target_position = position;
+        this.distance = new Position2D();
         this.driving_accuracy = 1;
         this.velocity = new Velocity();
         this.rotationPIDcontroller = new PIDcontroller(0.01,0.0,0.0);
