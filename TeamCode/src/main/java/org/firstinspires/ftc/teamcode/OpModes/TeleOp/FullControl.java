@@ -17,6 +17,8 @@ public class FullControl extends BaseTeleOp {
     @Override
     public void initialize() {
         chassis = new MecanumChassis();
+        chassis.setRotationAxis(1);
+        chassis.populateMotorArray(hardwareMap);
         navi = new FieldNavigation(new Position2D(0.0, 0.0), 0.0);
 
         robot = new Robot(navi, chassis);
@@ -28,9 +30,10 @@ public class FullControl extends BaseTeleOp {
                 -gamepad1.left_stick_y * 0.5,
                 -gamepad1.left_stick_x * 0.5,
                 (gamepad1.left_trigger-gamepad1.right_trigger) * 0.4);
-
+        robot.step();
+        
+        telemetry.addLine(chassis.debug());
         telemetry.addLine(navi.debug());
         telemetry.update();
-        robot.step();
     }
 }
