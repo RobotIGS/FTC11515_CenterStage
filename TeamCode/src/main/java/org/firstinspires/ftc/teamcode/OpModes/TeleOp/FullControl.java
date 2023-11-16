@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 import org.firstinspires.ftc.teamcode.Tools.FieldNavigation;
 import org.firstinspires.ftc.teamcode.Tools.Robot;
 
-@TeleOp(name = "FTC FullControl", group = "FTC")
+@TeleOp(name = "FullControl", group = "FTC")
 public class FullControl extends BaseTeleOp {
     // robot
     protected Robot robot;
@@ -20,15 +20,20 @@ public class FullControl extends BaseTeleOp {
     // claw
     protected Servo claw_servo1;
     protected Servo claw_servo2;
-    protected Servo claw_servo3;
-    protected Servo claw_servo4;
+    protected Servo claw_lifter;
 
     protected final double claw_servo_min = 0.0;
-    protected final double claw_servo_max = 0.2;
+    protected final double claw_servo_max = 0.13;
+    protected final double claw_lifter_min = 0.4;
+    protected final double claw_lifter_max = 0.0;
 
     // lift
     protected DcMotor lift_motor;
     protected int lift_startposition;
+    protected final int lift_maxposition = -7400;
+
+    // shoot
+    private Servo servo3;
 
 
     @Override
@@ -43,14 +48,16 @@ public class FullControl extends BaseTeleOp {
         // claw
         claw_servo1 = hardwareMap.get(Servo.class, "claw1");
         claw_servo2 = hardwareMap.get(Servo.class, "claw2");
-        claw_servo3 = hardwareMap.get(Servo.class, "claw3");
-        claw_servo4 = hardwareMap.get(Servo.class, "claw4");
+        claw_lifter = hardwareMap.get(Servo.class, "clawlifter");
 
         // lift
         lift_motor = hardwareMap.get(DcMotor.class, "lift");
         lift_startposition = lift_motor.getCurrentPosition();
         lift_motor.setTargetPosition(lift_startposition);
         lift_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // shoot
+        servo3 = hardwareMap.get(Servo.class, "shooter");
     }
 
     @Override
@@ -59,24 +66,25 @@ public class FullControl extends BaseTeleOp {
         /* CLAW */
         {
             // claw open
-            if (gamepad2.dpad_up) {
+            if (gamepad2.dpad_left) {
                 claw_servo1.setPosition(claw_servo_min);
                 claw_servo2.setPosition(claw_servo_max);
             }
-            if (gamepad2.dpad_down) {
-                claw_servo3.setPosition(claw_servo_min);
-                claw_servo4.setPosition(claw_servo_max);
-            }
 
             // claw close
-            if (gamepad2.y) {
+            if (gamepad2.dpad_right) {
                 claw_servo1.setPosition(claw_servo_max);
                 claw_servo2.setPosition(claw_servo_min);
             }
-            if (gamepad2.a) {
-                claw_servo3.setPosition(claw_servo_max);
-                claw_servo4.setPosition(claw_servo_min);
-            }
+
+            // claw up
+            if (gamepad2.dpad_up)
+                claw_lifter.setPosition(claw_lifter_max);
+
+            // claw down
+            if (gamepad2.dpad_down)
+                claw_lifter.setPosition(claw_lifter_min);
+
         }
 
         /* LIFT
@@ -84,20 +92,35 @@ public class FullControl extends BaseTeleOp {
         control (set new position to hold) on stick movement.
          */
         if (gamepad2.right_stick_y != 0.0) {
-            if (lift_motor.getMode() != DcMotor.RunMode.RUN_USING_ENCODER)
-                lift_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            lift_motor.setPower(gamepad2.right_stick_y);
-        } else if (lift_motor.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
+            if (
+                    (lift_motor.getCurrentPosition() >= 0 && gamepad2.right_stick_y > 0) ||
+                    (lift_motor.getCurrentPosition() <= lift_maxposition && gamepad2.right_stick_y < 0)
+            )
+                lift_motor.setPower(0.0);
+
+            else {
+                if (lift_motor.getMode() != DcMotor.RunMode.RUN_USING_ENCODER)
+                    lift_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                lift_motor.setPower(gamepad2.right_stick_y);
+            }
+        }
+        else if (lift_motor.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
             lift_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lift_motor.setTargetPosition(lift_motor.getCurrentPosition());
             lift_motor.setPower(0.3);
+        }
+        /* SHOOTING */
+        if (gamepad1.dpad_down){
+            servo3.setPosition(0);
+        } else if (gamepad1.dpad_up) {
+            servo3.setPosition(0.15);
         }
 
         /* DRIVING */
         robot.setSpeed(
                 -gamepad1.left_stick_y * 0.5,
                 -gamepad1.left_stick_x * 0.5,
-                (gamepad1.left_trigger-gamepad1.right_trigger) * 0.4);
+                (gamepad1.left_trigger-gamepad1.right_trigger) * 0.5);
 
         /* UPDATE THE ROBOT */
         robot.step();
@@ -108,8 +131,9 @@ public class FullControl extends BaseTeleOp {
         telemetry.addLine();
 
         // claw
-        telemetry.addData("CLAW F", claw_servo1.getPosition() == claw_servo_min ? "OPEN" : "CLOSED");
-        telemetry.addData("CLAW B", claw_servo3.getPosition() == claw_servo_min ? "OPEN" : "CLOSED");
+        telemetry.addData("CLAW", claw_servo1.getPosition() == claw_servo_min ? "OPEN" : "CLOSED");
+        telemetry.addData("CLAW", claw_lifter.getPosition() == claw_lifter_min ? "DOWN" : "UP");
+        telemetry.addData("LIFT", lift_motor.getCurrentPosition()-lift_startposition);
         telemetry.update();
     }
 }
