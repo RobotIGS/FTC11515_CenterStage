@@ -93,7 +93,7 @@ public class FullControl extends BaseTeleOp {
          */
         if (gamepad2.right_stick_y != 0.0) {
             if (
-                    (lift_motor.getCurrentPosition() >= 0 && gamepad2.right_stick_y > 0) ||
+                    (lift_motor.getCurrentPosition()-lift_startposition >= -600 && gamepad2.right_stick_y > 0) ||
                     (lift_motor.getCurrentPosition() <= lift_maxposition && gamepad2.right_stick_y < 0)
             )
                 lift_motor.setPower(0.0);
