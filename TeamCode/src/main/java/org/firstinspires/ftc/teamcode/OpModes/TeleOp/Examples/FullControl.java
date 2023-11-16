@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp.Examples;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.OpModes.TeleOp.BaseTeleOp;
@@ -8,8 +9,8 @@ import org.firstinspires.ftc.teamcode.Tools.FieldNavigation;
 import org.firstinspires.ftc.teamcode.Tools.Chassis.ChassisBase;
 import org.firstinspires.ftc.teamcode.Tools.Robot;
 
-@TeleOp(name="FullControl", group="Examples")
-//@Disabled
+@TeleOp(name="Ex FullControl", group="Examples")
+@Disabled
 public class FullControl extends BaseTeleOp {
     private Robot robot;
     private FieldNavigation navi;
