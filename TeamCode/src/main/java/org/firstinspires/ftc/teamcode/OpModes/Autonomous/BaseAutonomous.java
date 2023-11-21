@@ -4,6 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public abstract class BaseAutonomous extends LinearOpMode {
     /*
+     * return the alliance color
+     */
+    public boolean isBlue() {
+        return true;
+    }
+
+    /*
      * initialize the OpMode (Autonomous)
      */
     public abstract void initialize();
