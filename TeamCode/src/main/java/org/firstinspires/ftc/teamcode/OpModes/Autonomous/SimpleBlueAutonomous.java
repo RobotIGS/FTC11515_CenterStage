@@ -70,8 +70,6 @@ public class SimpleBlueAutonomous extends BaseAutonomous {
             robot.step();
         }
 
-        sleep(2000);
-
         robot.stop();
     }
 }
