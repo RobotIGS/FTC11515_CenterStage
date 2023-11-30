@@ -75,6 +75,22 @@ public class Robot {
     }
 
     /**
+     * rotate the robot
+     * @param rotation target rotation (relative if rel)
+     * @param rel specify if rotation is relative
+     */
+    public void rotate(float rotation, boolean rel) {
+        navi.setTargetRotation(rotation, rel);
+        drive(new Position2D(0.0, 0.0), true);
+    }
+
+    /**
+     * rotate the robot relative
+     * @param rotation target rotation (relative if rel)
+     */
+    public void rotate(float rotation) { rotate(rotation, true); }
+
+    /**
      * stop all
      */
     public void stop() {

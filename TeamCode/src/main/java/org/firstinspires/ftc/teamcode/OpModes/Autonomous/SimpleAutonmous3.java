@@ -52,58 +52,71 @@ public class SimpleAutonmous3 {
             claw_servo1.setPosition(claw_servo_max);
             claw_servo2.setPosition(claw_servo_min);
 
+            //lift
+            lift_startposition = lift_motor.getCurrentPosition();
+
         }
 
         @Override
         public void run() {
+            // set up claw
+            claw_servo1.setPosition(claw_servo_min);
+            claw_servo2.setPosition(claw_servo_max);
+            sleep(1000);
+
             claw_lifter.setPosition(claw_lifter_max);
             sleep(1000);
 
+            //drive forward
             robot.drive(new Position2D(65, 0));
             while (navi.getDriving() && opModeIsActive()) {
                 robot.step();
             }
             sleep(1000);
 
-            robot.drive(new Position2D(0,-100));
+            //drive to board
+            robot.drive(new Position2D(0,isRed() ? -100 : (100)));
             lift_motor.setTargetPosition(-200);
             while (navi.getDriving() && opModeIsActive()) {
                 robot.step();
             }
-
-            claw_lifter.setPosition(claw_lifter_max);
-            while (navi.getDriving() && opModeIsActive()) {
+            while (lift_motor.isBusy() && opModeIsActive()) {
                 robot.step();
             }
+            //correct if wrong position
+            sleep(600);
 
-            robot.drive(new Position2D(10, 0));
+            //drive near to board
+            robot.drive(new Position2D(0, isRed() ? -10 : (10)));
             while (navi.getDriving() && opModeIsActive()) {
                 robot.step();
             }
             sleep(500);
 
+            //open claw
             claw_servo1.setPosition(claw_servo_min);
             claw_servo2.setPosition(claw_servo_max);
+            sleep(500);
+
+            //drive backwards to park
+            robot.drive(new Position2D(0, isRed() ? -10 : (10)));
             while (navi.getDriving() && opModeIsActive()) {
                 robot.step();
             }
             sleep(500);
 
-            robot.drive(new Position2D(-10, 0));
-            while (navi.getDriving() && opModeIsActive()) {
-                robot.step();
-            }
-            sleep(500);
-
+            //close claw & lift to initial position
             claw_servo1.setPosition(claw_servo_max);
             claw_servo2.setPosition(claw_servo_min);
             claw_lifter.setPosition(claw_lifter_min);
+            sleep(500);
+
+            //lift to initial position
+            lift_motor.setTargetPosition(0); //back to normal position (what value is 0 ?)
             while (navi.getDriving() && opModeIsActive()) {
                 robot.step();
             }
-            sleep(500);
-
-
+            sleep(200);
 
 
         }

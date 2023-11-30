@@ -18,6 +18,7 @@ public class FieldNavigation {
 
     private PIDcontroller rotationPIDcontroller;
     private boolean keeprotation;
+    private double rotation_accuracy;
     public Position2D distance;
 
     /**
@@ -31,6 +32,7 @@ public class FieldNavigation {
         this.driving = false;
         this.position = position;
         this.rotation = rotation;
+        this.rotation_accuracy = 1.0;
         this.target_position = position;
         this.distance = new Position2D();
         this.driving_accuracy = 1;
@@ -60,6 +62,14 @@ public class FieldNavigation {
      */
     public void setDriving_accuracy(double accu) {
         driving_accuracy = accu;
+    }
+
+    /**
+     * set rotating accuracy
+     * @param accu accuracy in degrees
+     */
+    public void setRotation_accuracy(double accu) {
+        rotation_accuracy = accu;
     }
 
     /**
@@ -107,10 +117,30 @@ public class FieldNavigation {
 
     /**
      * set target rotation
-     * @param rot current rotation
+     * @param rotation current rotation
+     * @param rel specifies if rotation is relative
      */
-    public void setTargetRotation(double rot) {
-        target_rotation = rot;
+    public void setTargetRotation(double rotation, boolean rel) {
+
+        if (rel) {
+            target_rotation += 180; // make positive
+            target_rotation += rotation; // add offset // TODO: test and replace + with - if + => right
+            target_rotation %= 360;
+            target_rotation -= 180;
+        }
+        else {
+            target_rotation = rotation;
+            if (Math.abs(target_rotation) > 180)
+                target_rotation %= 180;
+        }
+    }
+
+    /**
+     * set target rotation
+     * @param rotation current rotation
+     */
+    public void setTargetRotation(double rotation) {
+        setTargetRotation(rotation, true);
     }
 
     /**
@@ -176,8 +206,14 @@ public class FieldNavigation {
             this.distance.subract(position);
 
             // test if in range of the target position (reached)
-            if (Math.abs(distance.getAbsolute()) <= this.driving_accuracy)
-                stop();
+            if (Math.abs(distance.getAbsolute()) <= this.driving_accuracy) {
+                if (keeprotation) {
+                    if (Math.abs(target_rotation - rotation) <= rotation_accuracy)
+                        stop();
+                    else
+                        stop();
+                }
+            }
 
             else {
                 // calculate velocity for the chassis
