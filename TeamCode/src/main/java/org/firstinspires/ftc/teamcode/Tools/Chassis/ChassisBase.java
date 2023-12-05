@@ -165,7 +165,7 @@ public abstract class ChassisBase implements Chassis {
         rotation = getRawRotation();
         rotation += 180; // make positive
         rotation += rotation_offset; // add offset
-        rotation %= 360;
+        rotation %= 360; //TODO if rotation < 0, += 360
         rotation -= 180;
     }
 

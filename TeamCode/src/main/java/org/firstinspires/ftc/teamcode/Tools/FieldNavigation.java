@@ -37,7 +37,7 @@ public class FieldNavigation {
         this.distance = new Position2D();
         this.driving_accuracy = 1;
         this.velocity = new Velocity();
-        this.rotationPIDcontroller = new PIDcontroller(0.01,0.0,0.0);
+        this.rotationPIDcontroller = new PIDcontroller(6e-3,5e-5,0.0);
         keeprotation = false;
     }
 
@@ -186,11 +186,11 @@ public class FieldNavigation {
 
     public String debug() {
         String ret = "--- FieldNavigation Debug ---\n";
-        ret += String.format("driving :: %s\ntarget position :: x=%+3.1f y=%+3.1f\n",
-                (this.driving?"True":"False"), target_position.getX(), target_position.getY());
+        ret += String.format("driving :: %s\ntarget position :: x=%+3.1f y=%+3.1f rot=%+3.1f\n",
+                (this.driving?"True":"False"), target_position.getX(), target_position.getY(), target_rotation);
         ret += String.format("distance :: x=%+3.1f %+3.1f\n", this.distance.getX(), this.distance.getY());
-        ret += String.format("position :: x=%+3.1f y=%+3.1f\n",
-                position.getX(), position.getY());
+        ret += String.format("position :: x=%+3.1f y=%+3.1f rot=%+3.1f\n",
+                position.getX(), position.getY(), rotation);
         ret += String.format("velocity :: x=%+1.2f y=%+1.2f wz=%+1.2f\n",
                 velocity.getVX(), velocity.getVY(), velocity.getWZ());
         return ret;
@@ -210,9 +210,9 @@ public class FieldNavigation {
                 if (keeprotation) {
                     if (Math.abs(target_rotation - rotation) <= rotation_accuracy)
                         stop();
-                    else
-                        stop();
                 }
+                else
+                    stop();
             }
 
             else {
@@ -225,8 +225,11 @@ public class FieldNavigation {
             }
         }
 
-        if (keeprotation) {
-            velocity.setWZ(rotationPIDcontroller.step(target_rotation-rotation));
+        if (driving && keeprotation) {
+            double error = target_rotation + 180 - rotation;
+            error %= 360;
+            error -= 180;
+            velocity.setWZ(rotationPIDcontroller.step(error));
         }
     }
 }

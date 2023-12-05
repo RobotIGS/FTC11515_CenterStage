@@ -77,6 +77,7 @@ public class SimpleAutonmous3 {
             //drive to board
             robot.drive(new Position2D(0,isRed() ? -100 : (100)));
             lift_motor.setTargetPosition(-200);
+            lift_motor.setPower(10);
             while (navi.getDriving() && opModeIsActive()) {
                 robot.step();
             }
@@ -113,7 +114,7 @@ public class SimpleAutonmous3 {
 
             //lift to initial position
             lift_motor.setTargetPosition(0); //back to normal position (what value is 0 ?)
-            while (navi.getDriving() && opModeIsActive()) {
+            while (lift_motor.isBusy() && opModeIsActive()) {
                 robot.step();
             }
             sleep(200);
