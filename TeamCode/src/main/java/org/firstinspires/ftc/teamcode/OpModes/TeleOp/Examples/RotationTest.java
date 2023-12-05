@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.OpModes.TeleOp.BaseTeleOp;
 import org.firstinspires.ftc.teamcode.Tools.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Tools.Chassis.MecanumChassis;
+import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 import org.firstinspires.ftc.teamcode.Tools.FieldNavigation;
 import org.firstinspires.ftc.teamcode.Tools.Robot;
 
@@ -20,7 +21,7 @@ public class RotationTest extends BaseTeleOp {
         chassis.setRotationAxis(1);
         chassis.populateMotorArray(hardwareMap);
 
-        navi = new FieldNavigation();
+        navi = new FieldNavigation(new Position2D(0.0, 0.0));
 
         robot = new Robot(navi, chassis);
         navi.setKeepRotation(true);

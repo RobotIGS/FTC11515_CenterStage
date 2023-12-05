@@ -3,14 +3,16 @@ package org.firstinspires.ftc.teamcode.Tools;
 import org.firstinspires.ftc.teamcode.Tools.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
-// TODO isb for driving etc
-
 public class Robot {
     public FieldNavigation navi;
     public Chassis chassis;
     protected Profile profile;
 
-    // TODO: javadoc
+    /**
+     * create Robot object
+     * @param navi the field-navigator used for this robot
+     * @param chassis the chassis of the robot
+     */
     public Robot(FieldNavigation navi, Chassis chassis) {
         this.navi = navi;
         this.chassis = chassis;
@@ -99,7 +101,7 @@ public class Robot {
     }
 
     /**
-     * refresh
+     * refresh everything
      */
     public void step() {
         navi.setRotation(chassis.getRotation());

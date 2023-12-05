@@ -18,9 +18,10 @@ public class TestCoordinateDriving extends BaseAutonomous {
 
     @Override
     public void initialize() {
-        navi = new FieldNavigation(new Position2D(100,50), 0.0);
+        navi = new FieldNavigation(new Position2D(100,50));
         chassis = new MecanumChassis();
         chassis.setRotationAxis(1);
+        chassis.setRotation(0.0f);
         chassis.populateMotorArray(hardwareMap);
 
         robot = new Robot(navi, chassis);

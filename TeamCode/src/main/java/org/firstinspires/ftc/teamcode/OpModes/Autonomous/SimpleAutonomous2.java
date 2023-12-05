@@ -29,10 +29,12 @@ public class SimpleAutonomous2 extends BaseAutonomous {
 
     @Override
     public void initialize() {
+        navi = new FieldNavigation(new Position2D(0.0, 0.0));
+
         chassis = new MecanumChassis();
         chassis.setRotationAxis(1);
+        chassis.setRotation(0.0f);
         chassis.populateMotorArray(hardwareMap);
-        navi = new FieldNavigation(new Position2D(0.0, 0.0), 0.0);
 
         robot = new Robot(navi, chassis);
 
