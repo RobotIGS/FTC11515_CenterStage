@@ -16,7 +16,7 @@ enum MODE {
 
 // TODO all ig
 @TeleOp(name="Test One Motor ('testing_motor')", group="testing")
-@Disabled
+//@Disabled
 public class MotorTest extends BaseTeleOp {
     DcMotor motor;
     MODE mode;

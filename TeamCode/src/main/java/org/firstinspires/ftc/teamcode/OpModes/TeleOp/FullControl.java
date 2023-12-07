@@ -44,8 +44,8 @@ public class FullControl extends BaseTeleOp {
     public void initialize() {
         chassis = new MecanumChassis();
         chassis.setRotationAxis(1);
-        chassis.setRotation(0.0f);
         chassis.populateMotorArray(hardwareMap);
+        chassis.setRotation(0.0f);
         navi = new FieldNavigation(new Position2D(0.0, 0.0));
 
         robot = new Robot(navi, chassis);

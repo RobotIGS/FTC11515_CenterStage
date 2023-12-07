@@ -31,7 +31,7 @@ public class FieldNavigation {
         this.rotation_accuracy = 1.0;
         this.target_position = position;
         this.distance = new Position2D();
-        this.driving_accuracy = 1;
+        this.driving_accuracy = 3.0;
         this.velocity = new Velocity();
         this.rotationPIDcontroller = new PIDcontroller(6e-3,5e-5,0.0);
         keeprotation = false;
@@ -168,12 +168,16 @@ public class FieldNavigation {
     public String debug() {
         String ret = "--- FieldNavigation Debug ---\n";
         ret += String.format("driving :: %s\ntarget position :: x=%+3.1f y=%+3.1f rot=%+3.1f\n",
-                (this.driving?"True":"False"), target_position.getX(), target_position.getY(), target_rotation);
+                (this.driving?"True":"False"), target_position.getX(), target_position.getY(), target_rotation.get());
         ret += String.format("distance :: x=%+3.1f %+3.1f\n", this.distance.getX(), this.distance.getY());
         ret += String.format("position :: x=%+3.1f y=%+3.1f rot=%+3.1f\n",
-                position.getX(), position.getY(), rotation);
+                position.getX(), position.getY(), rotation.get());
         ret += String.format("velocity :: x=%+1.2f y=%+1.2f wz=%+1.2f\n",
                 velocity.getVX(), velocity.getVY(), velocity.getWZ());
+
+        Rotation rotation_error = new Rotation(target_rotation.get());
+        rotation_error.add(-rotation.get());
+        ret += String.format("\n\nerror : %f\n", rotation_error.get());
         return ret;
     }
 
@@ -186,19 +190,16 @@ public class FieldNavigation {
             this.distance = target_position.copy();
             this.distance.subract(position);
 
+            // calculate the error in the rotation
             Rotation rotation_error = new Rotation(target_rotation.get());
             rotation_error.add(-rotation.get());
 
             // test if in range of the target position (reached)
-            if (Math.abs(distance.getAbsolute()) <= this.driving_accuracy) {
-                if (keeprotation) {
-                    if (Math.abs(rotation_error.get()) <= rotation_accuracy)
-                        stop();
-                }
-                else
+            if ((Math.abs(distance.getAbsolute()) <= this.driving_accuracy && !keeprotation) ||
+                (Math.abs(distance.getAbsolute()) <= this.driving_accuracy && keeprotation && Math.abs(rotation_error.get()) <= rotation_accuracy))
                     stop();
-            }
 
+            // update speeds
             else {
                 // calculate velocity for the chassis
                 Position2D distance = this.distance.getNormalization();
@@ -208,7 +209,7 @@ public class FieldNavigation {
                 velocity.set(
                         distance.getX() * 0.3,
                         distance.getY() * 0.3,
-                        (keeprotation ? rotationPIDcontroller.step(rotation_error.get()) : 0.0));
+                        keeprotation ? rotationPIDcontroller.step(rotation_error.get()) : 0.0);
             }
         }
     }

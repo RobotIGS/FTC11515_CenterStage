@@ -35,6 +35,15 @@ public class RotationTest extends BaseTeleOp {
         if (gamepad1.right_bumper && !robot.navi.getDriving()) {
             robot.rotate(-45);
         }
+        if (gamepad1.a && !robot.navi.getDriving()) {
+            robot.rotate(180, false);
+        }if (gamepad1.b && !robot.navi.getDriving()) {
+            robot.rotate(-90, false);
+        }if (gamepad1.y && !robot.navi.getDriving()) {
+            robot.rotate(0, false);
+        }if (gamepad1.x && !robot.navi.getDriving()) {
+            robot.rotate(90, false);
+        }
         robot.step();
 
         telemetry.addLine(navi.debug());
