@@ -19,11 +19,11 @@ public class FieldNavigation {
     public Position2D distance;
 
     /**
-     * create new FieldNavigation object with given position and rotation
+     * create new FieldNavigation object with given position
      * @param position position of the robot in CM
+     * @param pidController PID Controller used for rotation
      */
-
-    public FieldNavigation(Position2D position) {
+    public FieldNavigation(Position2D position, PIDcontroller pidController) {
         this.driving = false;
         this.position = position;
         this.rotation = new Rotation(0.0);
@@ -33,8 +33,16 @@ public class FieldNavigation {
         this.distance = new Position2D();
         this.driving_accuracy = 3.0;
         this.velocity = new Velocity();
-        this.rotationPIDcontroller = new PIDcontroller(6e-3,5e-5,0.0);
+        this.rotationPIDcontroller = pidController;
         keeprotation = false;
+    }
+
+    /**
+     * create new FieldNavigation object with given position and pid controller for rotation
+     * @param position position of the robot in CM
+     */
+    public FieldNavigation(Position2D position) {
+        FieldNavigation(position, new PIDcontroller(6e-3,5e-5,0.0));
     }
 
     /**
