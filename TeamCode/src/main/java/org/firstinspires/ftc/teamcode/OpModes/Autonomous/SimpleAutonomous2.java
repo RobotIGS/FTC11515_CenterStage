@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 import org.firstinspires.ftc.teamcode.Tools.FieldNavigation;
 import org.firstinspires.ftc.teamcode.Tools.Robot;
 
-@Autonomous(name = "Simple long parking", group = "FTC")
+@Autonomous(name = "Simple long parking", group = "FTC RED")
 public class SimpleAutonomous2 extends BaseAutonomous {
     //robot
     protected Robot robot;
@@ -33,8 +33,8 @@ public class SimpleAutonomous2 extends BaseAutonomous {
 
         chassis = new MecanumChassis();
         chassis.setRotationAxis(1);
-        chassis.setRotation(0.0f);
         chassis.populateMotorArray(hardwareMap);
+        chassis.setRotation(0.0f);
 
         robot = new Robot(navi, chassis);
 

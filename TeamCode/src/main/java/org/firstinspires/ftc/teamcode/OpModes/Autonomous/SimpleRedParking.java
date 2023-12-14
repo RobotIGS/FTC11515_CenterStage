@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 import org.firstinspires.ftc.teamcode.Tools.FieldNavigation;
 import org.firstinspires.ftc.teamcode.Tools.Robot;
 
-@Autonomous(name = "Simple Red", group = "FTC Red")
-public class SimpleAutonomous extends BaseAutonomous {
+@Autonomous(name = "Red Simple Parking", group = "FTC RED")
+public class SimpleRedParking extends BaseAutonomous {
     // robot
     protected Robot robot;
     protected FieldNavigation navi;
@@ -32,15 +32,15 @@ public class SimpleAutonomous extends BaseAutonomous {
 
         chassis = new MecanumChassis();
         chassis.setRotationAxis(1);
-        chassis.setRotation(0.0f);
         chassis.populateMotorArray(hardwareMap);
+        chassis.setRotation(0.0f);
 
         robot = new Robot(navi, chassis);
 
         // claw
         claw_servo1 = hardwareMap.get(Servo.class, "claw1");
         claw_servo2 = hardwareMap.get(Servo.class, "claw2");
-        claw_lifter = hardwareMap.get(Servo.class, "clawlifter");
+        claw_lifter = hardwareMap.get(Servo.class, "claw_lifter");
 
         // move claw into position
         claw_lifter.setPosition(claw_lifter_min);
@@ -53,7 +53,7 @@ public class SimpleAutonomous extends BaseAutonomous {
         claw_lifter.setPosition(claw_lifter_max);
         sleep(1000);
 
-        robot.drive(new Position2D(3000, isRed() ? 60 : (-60)));
+        robot.drive(new Position2D(300, isRed() ? 60 : (-60)));
         while (navi.getDriving() && opModeIsActive()) {
             robot.step();
         }

@@ -17,8 +17,8 @@ public class MecanumChassis extends ChassisBase {
     private final double WHEELDIAMETER = 10; // wheel diameter in centimeters
     private final double ONE_OVER_R = 1/(WHEELDIAMETER/2);
     private final double R_OVER_4 = (WHEELDIAMETER/2)/4;
-    private final int lx;
-    private final int ly;
+    private int lx = 1;
+    private int ly = 1;
 
     // based on https://research.ijcaonline.org/volume113/number3/pxc3901586.pdf
     private final double[][] forwardMatrix = {
@@ -38,7 +38,7 @@ public class MecanumChassis extends ChassisBase {
      * @param lx the sideways distance between wheel center and robot center
      * @param ly the forwards distance between wheel center and robot center
       */
-    public MecanumChassis(float lx, float ly) {
+    public MecanumChassis(int lx, int ly) {
         super(4);
 
         // save lx and ly
@@ -50,7 +50,7 @@ public class MecanumChassis extends ChassisBase {
      * get squared mecanum chassis
      */
     public MecanumChassis() {
-        MecanumChassis(1.0f, 1.0f);
+        this(1,1);
     }
 
     @Override

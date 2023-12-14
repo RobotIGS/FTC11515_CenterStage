@@ -13,7 +13,7 @@ public class FieldNavigation {
     private double driving_accuracy;
     private Velocity velocity;
 
-    private final PIDcontroller rotationPIDcontroller;
+    private PIDcontroller rotationPIDcontroller;
     private boolean keeprotation;
     private double rotation_accuracy;
     public Position2D distance;
@@ -42,7 +42,7 @@ public class FieldNavigation {
      * @param position position of the robot in CM
      */
     public FieldNavigation(Position2D position) {
-        FieldNavigation(position, new PIDcontroller(6e-3,5e-5,0.0));
+        this(position, new PIDcontroller(6e-3,5e-5,0.0));
     }
 
     /**
