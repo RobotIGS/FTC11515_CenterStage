@@ -15,6 +15,7 @@ public abstract class BaseAutonomous extends LinearOpMode {
 
     /* initialize the OpMode (Autonomous) */
     public void initialize() {
+        hwMap = new HwMap();
         hwMap.initialize(hardwareMap);
     };
 

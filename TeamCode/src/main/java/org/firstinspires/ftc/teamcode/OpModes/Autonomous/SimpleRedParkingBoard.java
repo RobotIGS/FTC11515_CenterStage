@@ -38,6 +38,8 @@ public class SimpleRedParkingBoard extends BaseAutonomous {
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }
-        sleep(1000);
+
+        // stop the robot
+        hwMap.robot.stop();
     }
 }

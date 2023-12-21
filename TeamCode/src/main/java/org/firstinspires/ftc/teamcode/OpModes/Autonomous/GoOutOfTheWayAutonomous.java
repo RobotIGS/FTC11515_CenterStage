@@ -26,6 +26,7 @@ public class GoOutOfTheWayAutonomous extends BaseAutonomous {
             hwMap.robot.step();
         }
 
+        // stop the robot
         hwMap.robot.stop();
     }
 }

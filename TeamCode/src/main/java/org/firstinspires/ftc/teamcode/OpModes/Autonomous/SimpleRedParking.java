@@ -11,53 +11,27 @@ import org.firstinspires.ftc.teamcode.Tools.Robot;
 
 @Autonomous(name = "Red Simple Parking", group = "FTC RED")
 public class SimpleRedParking extends BaseAutonomous {
-    // robot
-    protected Robot robot;
-    protected FieldNavigation navi;
-    protected Chassis chassis;
-
-    // claw
-    protected Servo claw_servo1;
-    protected Servo claw_servo2;
-    protected Servo claw_lifter;
-
-    protected final double claw_servo_min = 0.0;
-    protected final double claw_servo_max = 0.13;
-    protected final double claw_lifter_min = 0.4;
-    protected final double claw_lifter_max = 0.0;
-
     @Override
     public void initialize() {
-        navi = new FieldNavigation(new Position2D(0.0, 0.0));
-
-        chassis = new MecanumChassis();
-        chassis.setRotationAxis(1);
-        chassis.populateMotorArray(hardwareMap);
-        chassis.setRotation(0.0f);
-
-        robot = new Robot(navi, chassis);
-
-        // claw
-        claw_servo1 = hardwareMap.get(Servo.class, "claw1");
-        claw_servo2 = hardwareMap.get(Servo.class, "claw2");
-        claw_lifter = hardwareMap.get(Servo.class, "claw_lifter");
+        super.initialize();
 
         // move claw into position
-        claw_lifter.setPosition(claw_lifter_min);
-        claw_servo1.setPosition(claw_servo_max);
-        claw_servo2.setPosition(claw_servo_min);
+        hwMap.claw_lifter.setPosition(hwMap.claw_lifter_min);
+        hwMap.claw_servo1.setPosition(hwMap.claw_servo_max);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo_min);
     }
 
     @Override
     public void run() {
-        claw_lifter.setPosition(claw_lifter_max);
+        hwMap.claw_lifter.setPosition(hwMap.claw_lifter_max);
         sleep(1000);
 
-        robot.drive(new Position2D(300, isRed() ? 60 : (-60)));
-        while (navi.getDriving() && opModeIsActive()) {
-            robot.step();
+        hwMap.robot.drive(new Position2D(300, isRed() ? 60 : (-60)));
+        while (hwMap.navi.getDriving() && opModeIsActive()) {
+            hwMap.robot.step();
         }
 
-        robot.stop();
+        // stop the robot
+        hwMap.robot.stop();
     }
 }

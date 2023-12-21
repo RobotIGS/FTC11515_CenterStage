@@ -6,6 +6,8 @@ import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
 public class FieldNavigation {
     private boolean driving;
+    private boolean keeprotation;
+
     private Position2D position;
     private Rotation rotation;
     private Position2D target_position;
@@ -14,7 +16,6 @@ public class FieldNavigation {
     private Velocity velocity;
 
     private PIDcontroller rotationPIDcontroller;
-    private boolean keeprotation;
     private double rotation_accuracy;
     public Position2D distance;
 
@@ -28,7 +29,7 @@ public class FieldNavigation {
         this.position = position;
         this.rotation = new Rotation(0.0);
         this.target_rotation = new Rotation(0.0);
-        this.rotation_accuracy = 1.0;
+        this.rotation_accuracy = 2.0;
         this.target_position = position;
         this.distance = new Position2D();
         this.driving_accuracy = 3.0;
@@ -132,6 +133,9 @@ public class FieldNavigation {
         setTargetRotation(rotation, true);
     }
 
+    public double getTargetRotation() {
+        return target_rotation.get();
+    }
     /**
      * set current position
      * @param p position
@@ -145,6 +149,14 @@ public class FieldNavigation {
      * @param keep whether the rotation has to be kept
      */
     public void setKeepRotation(boolean keep) {keeprotation = keep;}
+
+    /**
+     * get keep rotation
+     * @return true = keep rotation
+     */
+    public boolean getKeepRotation() {
+        return keeprotation;
+    }
 
     /**
      * calculate current position utilising the driven distance since the last refresh

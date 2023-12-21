@@ -75,9 +75,9 @@ public class ExtendedRedParkingBoard extends BaseAutonomous {
         while (hwMap.lift_motor.isBusy() && opModeIsActive()) {
             hwMap.robot.step();
         }
-        sleep(200);
 
-
+        // stop the robot
+        hwMap.robot.stop();
     }
 
 }
