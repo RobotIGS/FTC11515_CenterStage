@@ -26,7 +26,7 @@ public class Position2D {
         this.y += pos.y;
     }
 
-    public void subract(Position2D pos){
+    public void subtract(Position2D pos){
         this.x -= pos.x;
         this.y -= pos.y;
     }

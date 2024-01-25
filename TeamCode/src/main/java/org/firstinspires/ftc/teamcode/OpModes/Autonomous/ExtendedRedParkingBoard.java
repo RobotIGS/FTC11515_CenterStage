@@ -10,19 +10,20 @@ public class ExtendedRedParkingBoard extends BaseAutonomous {
         super.initialize();
 
         // move claw into position
-        hwMap.claw_lifter.setPosition(hwMap.claw_lifter_min);
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo_max);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo_min);
+        hwMap.intake_lifter.setPosition(hwMap.intake_lifter_min);
+        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo1_open);
     }
 
     @Override
     public void run() {
+        /*
         // set up claw
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo_min);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo_max);
+        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_open);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo1_closed);
         sleep(1000);
 
-        hwMap.claw_lifter.setPosition(hwMap.claw_lifter_max);
+        hwMap.intake_lifter.setPosition(hwMap.intake_lifter_max);
         sleep(1000);
 
         //drive forward
@@ -53,8 +54,8 @@ public class ExtendedRedParkingBoard extends BaseAutonomous {
         sleep(500);
 
         //open claw
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo_min);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo_max);
+        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_open);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo1_closed);
         sleep(500);
 
         //drive backwards to park
@@ -65,9 +66,9 @@ public class ExtendedRedParkingBoard extends BaseAutonomous {
         sleep(500);
 
         //close claw & lift to initial position
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo_max);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo_min);
-        hwMap.claw_lifter.setPosition(hwMap.claw_lifter_min);
+        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo1_open);
+        hwMap.intake_lifter.setPosition(hwMap.intake_lifter_min);
         sleep(500);
 
         //lift to initial position
@@ -78,6 +79,6 @@ public class ExtendedRedParkingBoard extends BaseAutonomous {
 
         // stop the robot
         hwMap.robot.stop();
+        */
     }
-
 }

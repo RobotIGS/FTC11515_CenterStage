@@ -43,7 +43,7 @@ public class FieldNavigation {
      * @param position position of the robot in CM
      */
     public FieldNavigation(Position2D position) {
-        this(position, new PIDcontroller(6e-3,5e-5,0.0));
+        this(position, new PIDcontroller(6e-3,2e-5,0.0));
     }
 
     /**
@@ -84,7 +84,7 @@ public class FieldNavigation {
      * @param d relative target position
      */
     public void drive_rel(Position2D d) {
-        d.rotate(-this.rotation.get());
+        d.rotate(this.rotation.get());
         d.add(this.position);
         drive_pos(d);
     }
@@ -208,7 +208,7 @@ public class FieldNavigation {
         if (driving) {
             // calculate the distance to the target position
             this.distance = target_position.copy();
-            this.distance.subract(position);
+            this.distance.subtract(position);
 
             // calculate the error in the rotation
             Rotation rotation_error = new Rotation(target_rotation.get());

@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Tools.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Tools.Chassis.MecanumChassis;
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 import org.firstinspires.ftc.teamcode.Tools.FieldNavigation;
+import org.firstinspires.ftc.teamcode.Tools.Modules.SimpleLift;
 import org.firstinspires.ftc.teamcode.Tools.Robot;
 
 public class HwMap {
@@ -18,18 +19,16 @@ public class HwMap {
     // claw
     public Servo claw_servo1;
     public Servo claw_servo2;
-    public Servo claw_lifter;
+    public Servo intake_lifter;
 
     // lift
-    public DcMotor lift_motor;
+    public SimpleLift lift;
 
     // limits
-    public final double claw_servo_min = 0.0;
-    public final double claw_servo_max = 0.13;
-    public final double claw_lifter_min = 0.4;
-    public final double claw_lifter_max = 0.0;
-    public int lift_start_position;
-    public final int lift_max_position = -5200;
+    public final double claw_servo1_open = 0.0;
+    public final double claw_servo1_closed = 0.13;
+    public final double intake_lifter_min = 0.4;
+    public final double intake_lifter_max = 0.0;
 
     public void initialize(HardwareMap hardwareMap) {
         // get chassis
@@ -47,12 +46,9 @@ public class HwMap {
         // claw
         claw_servo1 = hardwareMap.get(Servo.class, "claw1");
         claw_servo2 = hardwareMap.get(Servo.class, "claw2");
-        claw_lifter = hardwareMap.get(Servo.class, "claw_lifter");
+        intake_lifter = hardwareMap.get(Servo.class, "claw_lifter");
 
         // lift
-        lift_motor = hardwareMap.get(DcMotor.class, "lift");
-        lift_start_position = lift_motor.getCurrentPosition();
-        lift_motor.setTargetPosition(lift_start_position);
-        lift_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift = new SimpleLift(hardwareMap.get(DcMotor.class, "lift"), 5200, true);
     }
 }
