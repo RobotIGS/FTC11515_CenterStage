@@ -5,14 +5,22 @@ import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
 @Autonomous(name = "Red Extended Parking", group = "FTC RED")
 public class ExtendedParkingRed extends SimpleParkingRed {
+    protected int zoneVal;
+
     @Override
     public void run() {
-        // parking
         super.run();
+        runWithoutParking();
+    }
 
-        /*
-         * score
-         */
+    public void runWithoutGot() {
+        super.runWithoutGot();
+        runWithoutParking();
+    }
+
+    protected void runWithoutParking() {
+        // scoring
+        //TODO: use zoneVal
 
         // lift up
         hwMap.lift.setTargetPosition(1000);

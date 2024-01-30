@@ -11,6 +11,11 @@ public class SimpleParkingRed extends GoOutOfTheWayAutonomous {
         // GOT
         super.run();
 
+        // parking
+        runWithoutGot();
+    }
+
+    protected void runWithoutGot() {
         // set rotation accuracy to make sure that the robot
         // doesn't collide with the bridge
         hwMap.navi.setRotation_accuracy(0.5f);
