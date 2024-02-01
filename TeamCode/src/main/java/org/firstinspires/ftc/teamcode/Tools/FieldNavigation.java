@@ -15,7 +15,7 @@ public class FieldNavigation {
     private double driving_accuracy;
     private Velocity velocity;
 
-    private PIDcontroller rotationPIDcontroller;
+    public PIDcontroller rotationPIDcontroller;
     private double rotation_accuracy;
     public Position2D distance;
 

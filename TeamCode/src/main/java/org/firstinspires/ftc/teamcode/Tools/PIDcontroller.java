@@ -52,6 +52,15 @@ public class PIDcontroller {
     }
 
     /**
+     * reset PID controller
+     */
+    public void reset() {
+        integral = 0.0;
+        last_error = 0.0;
+        pid_value = 0.0;
+    }
+
+    /**
      * update the PID controller and calculate the result
      * @param error the system error
      * @return output of the PID controller
