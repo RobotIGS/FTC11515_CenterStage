@@ -10,17 +10,14 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.Date;
 import java.util.List;
 
-@TeleOp(name = "DetectionParkingRed", group = "FTC RED")
-public class DetectionRed extends ExtendedParkingRed {
+@TeleOp(name = "DetectionExtendedParkingRed", group = "FTC RED")
+public class Detection extends ExtendedParking {
     private TfodProcessor tfod;
     private VisionPortal visionPortal;
 
     @Override
     public void initialize() {
-
-
-
-        //super.initialize();
+        super.initialize();
 
         tfod = new TfodProcessor.Builder().build();
 
@@ -37,9 +34,13 @@ public class DetectionRed extends ExtendedParkingRed {
         tfod.setMinResultConfidence(0.69f);
     }
 
+    private void runPlacePixel() {
+        // TODO: place pixel next to prop / pixel
+    }
+
     @Override
     public void run() {
-        // replace GOt and continue with EP
+        // replace GOT and continue with EP
 
         //driving
         hwMap.robot.drive(new Position2D(30, 0));
@@ -48,11 +49,11 @@ public class DetectionRed extends ExtendedParkingRed {
         }
 
         // detection
-        long starttime = new Date().getTime();
-        while (opModeIsActive() && starttime + 2000 >= new Date().getTime()) {
+        long start_time = new Date().getTime();
+        while (opModeIsActive() && start_time + 2000 >= new Date().getTime()) {
             List<Recognition> currentRecognitions = tfod.getRecognitions();
             telemetry.addData("# Objects Detected", currentRecognitions.size());
-            //TODO: Override zoneVal
+            //TODO: Overwrite zoneVal
 
             // Step through the list of recognitions and display info for each one.
             for (Recognition recognition : currentRecognitions) {
@@ -71,7 +72,11 @@ public class DetectionRed extends ExtendedParkingRed {
         // Save more CPU resources when camera is no longer needed.
         visionPortal.close();
 
-        // continue
+        // continue with EP
         super.runWithoutGot();
+    }
+
+    public void runFull() {
+        run(); // TODO: normal run + placePixel()
     }
 }

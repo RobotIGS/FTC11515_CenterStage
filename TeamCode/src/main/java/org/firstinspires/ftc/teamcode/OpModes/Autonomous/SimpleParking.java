@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
 @Autonomous(name = "Red Simple Parking", group = "FTC RED")
-public class SimpleParkingRed extends GoOutOfTheWayAutonomous {
+public class SimpleParking extends GoOutOfTheWayAutonomous {
     @Override
     public void run() {
         // GOT
@@ -25,7 +25,7 @@ public class SimpleParkingRed extends GoOutOfTheWayAutonomous {
         sleep(1000);
 
         // rotate to face the board
-        hwMap.robot.rotate(-90.0f);
+        hwMap.robot.rotate(isRed() ? -90.0f : 90.0f);
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }

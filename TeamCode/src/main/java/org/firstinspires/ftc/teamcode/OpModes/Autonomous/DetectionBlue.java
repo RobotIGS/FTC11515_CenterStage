@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "Extended Blue Parking Board", group = "FTC BLUE")
-public class ExtendedBlueParkingBoard extends ExtendedRedParkingBoard{
+@Autonomous(name = "DetectionExtendedParkingBlue", group = "FTC BLUE")
+public class DetectionBlue extends Detection {
     @Override
     public boolean isRed() {
         return false;

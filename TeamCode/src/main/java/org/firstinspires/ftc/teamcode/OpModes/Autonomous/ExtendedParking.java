@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
 @Autonomous(name = "Red Extended Parking", group = "FTC RED")
-public class ExtendedParkingRed extends SimpleParkingRed {
+public class ExtendedParking extends SimpleParking {
     protected int zoneVal;
 
     @Override
@@ -20,7 +20,7 @@ public class ExtendedParkingRed extends SimpleParkingRed {
 
     protected void runWithoutParking() {
         // scoring
-        //TODO: use zoneVal
+        //TODO: use zoneVal (drive left / right to place the pixel in the right zone)
 
         // lift up
         hwMap.lift.setTargetPosition(1000);
