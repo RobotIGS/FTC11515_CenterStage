@@ -37,7 +37,7 @@ public class SimpleParking extends GoOutOfTheWayAutonomous {
         sleep(1000);
 
         // drive forward to the board
-        hwMap.robot.drive(new Position2D(180.0f, 0.0f));
+        hwMap.robot.drive(new Position2D(70.0f, 0.0f));
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }

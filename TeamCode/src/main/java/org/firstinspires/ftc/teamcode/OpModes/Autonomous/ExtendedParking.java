@@ -20,7 +20,19 @@ public class ExtendedParking extends SimpleParking {
 
     protected void runWithoutParking() {
         // scoring
-        //TODO: use zoneVal (drive left / right to place the pixel in the right zone)
+        switch (zoneVal){
+            case 1:
+                hwMap.robot.drive(new Position2D(0,20));
+                break;
+            case 2:
+                break;
+            case 3:
+                hwMap.robot.drive(new Position2D(0,-20));
+                break;
+        }
+        while (hwMap.navi.getDriving() && opModeIsActive()){
+            hwMap.robot.step();
+        }
 
         // lift up
         hwMap.lift.setTargetPosition(1000);
@@ -32,7 +44,7 @@ public class ExtendedParking extends SimpleParking {
         hwMap.intake_lifter.setPosition(hwMap.intake_lifter_max);
 
         //drive exact to board
-        hwMap.robot.drive(new Position2D(10, 0));
+        hwMap.robot.drive(new Position2D(15, 0));
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }
