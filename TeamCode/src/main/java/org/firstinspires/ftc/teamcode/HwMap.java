@@ -16,10 +16,11 @@ public class HwMap {
     public FieldNavigation navi;
     public Chassis chassis;
 
-    // claw
+    // intake
     public Servo claw_servo1;
     public Servo claw_servo2;
     public Servo intake_lifter;
+    public DcMotor intake_motor;
 
     // lift
     public SimpleLift lift;
@@ -43,10 +44,11 @@ public class HwMap {
         // get robot api object
         robot = new Robot(navi, chassis);
 
-        // claw
+        // intake
         claw_servo1 = hardwareMap.get(Servo.class, "claw1");
         claw_servo2 = hardwareMap.get(Servo.class, "claw2");
-        intake_lifter = hardwareMap.get(Servo.class, "claw_lifter");
+        intake_motor = hardwareMap.get(DcMotor.class, "intake_motor");
+        intake_lifter = hardwareMap.get(Servo.class, "intake_lifter");
 
         // lift
         lift = new SimpleLift(hardwareMap.get(DcMotor.class, "lift"), 5200, true);

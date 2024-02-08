@@ -34,7 +34,7 @@ public class FullControl extends BaseTeleOp {
     @Override
     public void run() {
 
-        /* CLAW */
+        /* intake */
         {
             // claw open
             if (gamepad2.left_trigger != 0) {
@@ -48,18 +48,21 @@ public class FullControl extends BaseTeleOp {
                 hwMap.claw_servo2.setPosition(hwMap.claw_servo1_open);
             }
 
-            // claw up
+            // intake up
             if (gamepad2.left_stick_y < 0 && hwMap.intake_lifter.getPosition() > (hwMap.intake_lifter_min -hwMap.intake_lifter_max)/2)
                 hwMap.intake_lifter.setPosition(hwMap.intake_lifter_max);
 
-            // claw down
-            if (gamepad2.left_stick_y > 0 && hwMap.intake_lifter.getPosition() <
-
-
-
-                    (hwMap.intake_lifter_min -hwMap.intake_lifter_max)/2)
+            // intake down
+            if (gamepad2.left_stick_y > 0 && hwMap.intake_lifter.getPosition() < (hwMap.intake_lifter_min -hwMap.intake_lifter_max)/2)
                 hwMap.intake_lifter.setPosition(hwMap.intake_lifter_min);
 
+            // intake
+            if (gamepad1.dpad_down)
+                hwMap.intake_motor.setPower(1.0);
+            else if (gamepad1.dpad_up)
+                hwMap.intake_motor.setPower(-1.0);
+            else
+                hwMap.intake_motor.setPower(0.0);
         }
 
         /* LIFT

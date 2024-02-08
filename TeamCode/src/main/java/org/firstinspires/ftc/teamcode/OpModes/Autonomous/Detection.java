@@ -31,7 +31,7 @@ public class Detection extends ExtendedParking {
         // Build the Vision Portal, using the above settings.
         visionPortal = builder.build();
 
-        tfod.setMinResultConfidence(0.69f);
+        tfod.setMinResultConfidence(0.90f);
     }
 
     private void runPlacePixel() {
@@ -43,44 +43,49 @@ public class Detection extends ExtendedParking {
         // replace GOT and continue with EP
 
         //driving
-        hwMap.robot.drive(new Position2D(12, 0));
+        hwMap.robot.drive(new Position2D(50, 0));
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }
 
-        // detection
+        // detection in front
         long start_time = new Date().getTime();
-        while (opModeIsActive() && start_time + 2000 >= new Date().getTime()) {
+        while (opModeIsActive() && start_time + 2000 >= new Date().getTime() && zoneVal == RANDOMPOSITION.UNKNOWN) {
             List<Recognition> currentRecognitions = tfod.getRecognitions();
-            telemetry.addData("# Objects Detected", currentRecognitions.size());
-
-            // Step through the list of recognitions and display info for each one.
-            for (Recognition recognition : currentRecognitions) {
-                double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-                double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-
-                if(210<x && x<430){
-                    zoneVal = 2;
-                }
-                else if (210>x) {
-                    zoneVal = 1;
-                }
-                else {
-                    zoneVal = 0;
-                }
-                telemetry.addData(""," ");
-                telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-                telemetry.addData("- Position", "%.0f / %.0f", x, y);
-                telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-            }
-
-            telemetry.addData("\n==> zone detected %d", zoneVal);
-            telemetry.update();
+            if (!currentRecognitions.isEmpty())
+                zoneVal = RANDOMPOSITION.MIDDLE;
             sleep(20);
         }
+
+        // detection far pixel
+        if (zoneVal == RANDOMPOSITION.UNKNOWN) {
+            hwMap.robot.rotate(75);
+            while (opModeIsActive() && hwMap.navi.getDriving()) {
+                hwMap.robot.step();
+            }
+
+            start_time = new Date().getTime();
+            while (opModeIsActive() && start_time + 2000 >= new Date().getTime() && zoneVal == RANDOMPOSITION.UNKNOWN) {
+                List<Recognition> currentRecognitions = tfod.getRecognitions();
+                if (!currentRecognitions.isEmpty())
+                    zoneVal = isRed() ? RANDOMPOSITION.LEFT : RANDOMPOSITION.RIGHT;
+                sleep(20);
+            }
+
+            if (zoneVal == RANDOMPOSITION.UNKNOWN) {
+                zoneVal = isRed() ? RANDOMPOSITION.RIGHT : RANDOMPOSITION.LEFT;
+            }
+        }
+
         // Save more CPU resources when camera is no longer needed.
         visionPortal.close();
 
+        // rotate back
+        hwMap.robot.rotate(0, false);
+        while (opModeIsActive() && hwMap.navi.getDriving()) {
+            hwMap.robot.step();
+        }
+        sleep(200);
 
         //driving
         hwMap.robot.drive(new Position2D(62, 0), false);

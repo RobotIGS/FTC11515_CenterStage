@@ -3,9 +3,16 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
+enum RANDOMPOSITION {
+    UNKNOWN,
+    LEFT,
+    MIDDLE,
+    RIGHT
+};
+
 @Autonomous(name = "Red Extended Parking", group = "FTC RED")
 public class ExtendedParking extends SimpleParking {
-    protected int zoneVal;
+    protected RANDOMPOSITION zoneVal;
 
     @Override
     public void run() {
@@ -21,20 +28,20 @@ public class ExtendedParking extends SimpleParking {
     protected void runWithoutParking() {
         // scoring
         switch (zoneVal){
-            case 1:
+            case LEFT:
                 hwMap.robot.drive(new Position2D(0,20));
                 break;
-            case 2:
-                break;
-            case 3:
+            case RIGHT:
                 hwMap.robot.drive(new Position2D(0,-20));
+                break;
+            default:
                 break;
         }
         while (hwMap.navi.getDriving() && opModeIsActive()){
             hwMap.robot.step();
         }
 
-        // lift up
+        // lift upwards
         hwMap.lift.setTargetPosition(1000);
         while (opModeIsActive() && hwMap.lift.isBusy()) {
             sleep(100);
