@@ -66,6 +66,7 @@ public class Robot {
             navi.drive_rel(d);
         else
             navi.drive_pos(d);
+        navi.rotationPIDcontroller.reset();
     }
 
     /**

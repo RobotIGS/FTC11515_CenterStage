@@ -8,30 +8,15 @@ import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 public class SimpleParking extends GoOutOfTheWayAutonomous {
     @Override
     public void run() {
-        // GOT
         super.run();
 
-        // parking
-        runWithoutGot();
-    }
-
-    protected void runWithoutGot() {
-        // set rotation accuracy to make sure that the robot
-        // doesn't collide with the bridge
-        hwMap.navi.setRotation_accuracy(0.5f);
-        hwMap.navi.setKeepRotation(true);
-
-        // stop movement
         sleep(1000);
 
         // rotate to face the board
-        hwMap.robot.rotate(isRed() ? -90.0f : 90.0f);
+        hwMap.robot.rotate(isRed() ? -90.0f : 90.0f, false);
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }
-
-        // stop keeping rotation
-        hwMap.navi.setKeepRotation(false);
 
         // wait to make sure that the robot stands still
         sleep(1000);
@@ -42,7 +27,5 @@ public class SimpleParking extends GoOutOfTheWayAutonomous {
             hwMap.robot.step();
         }
 
-        // stop the robot
-        hwMap.robot.stop();
     }
 }

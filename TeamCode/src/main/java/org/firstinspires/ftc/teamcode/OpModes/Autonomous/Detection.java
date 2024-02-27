@@ -31,22 +31,22 @@ public class Detection extends ExtendedParking {
         // Build the Vision Portal, using the above settings.
         visionPortal = builder.build();
 
-        tfod.setMinResultConfidence(0.90f);
+        tfod.setMinResultConfidence(0.80f);
     }
 
-    private void runPlacePixel() {
+    private void placePixel() {
         // TODO: place pixel next to prop / pixel
     }
 
     @Override
     public void run() {
-        // replace GOT and continue with EP
-
         //driving
-        hwMap.robot.drive(new Position2D(40, 0));
+        hwMap.robot.drive(new Position2D(25, 0));
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }
+
+        sleep(1000);
 
         // detection in front
         long start_time = new Date().getTime();
@@ -54,22 +54,32 @@ public class Detection extends ExtendedParking {
             List<Recognition> currentRecognitions = tfod.getRecognitions();
             if (!currentRecognitions.isEmpty())
                 zoneVal = ZONEVALUE.MIDDLE;
-            sleep(20);
+            hwMap.robot.step();
         }
 
         // detection far pixel
         if (zoneVal == ZONEVALUE.UNKNOWN) {
-            hwMap.robot.rotate(75);
+            hwMap.robot.drive(new Position2D(-10, 0));
+            while (opModeIsActive() && hwMap.navi.getDriving()) {
+                hwMap.robot.step();
+            }
+            sleep(1000);
+            hwMap.robot.rotate(isRed()?28:-28, false);
             while (opModeIsActive() && hwMap.navi.getDriving()) {
                 hwMap.robot.step();
             }
 
+            hwMap.robot.drive(new Position2D(10, 0));
             start_time = new Date().getTime();
-            while (opModeIsActive() && start_time + 2000 >= new Date().getTime() && zoneVal == ZONEVALUE.UNKNOWN) {
+            while (opModeIsActive() && ((start_time + 2000 >= new Date().getTime() && zoneVal == ZONEVALUE.UNKNOWN) || hwMap.navi.getDriving())) {
                 List<Recognition> currentRecognitions = tfod.getRecognitions();
                 if (!currentRecognitions.isEmpty())
                     zoneVal = isRed() ? ZONEVALUE.LEFT : ZONEVALUE.RIGHT;
-                sleep(20);
+                hwMap.robot.step();
+            }
+            hwMap.robot.drive(new Position2D(-10, 0));
+            while (opModeIsActive() && hwMap.navi.getDriving()) {
+                hwMap.robot.step();
             }
 
             if (zoneVal == ZONEVALUE.UNKNOWN) {
@@ -85,13 +95,6 @@ public class Detection extends ExtendedParking {
         while (opModeIsActive() && hwMap.navi.getDriving()) {
             hwMap.robot.step();
         }
-        sleep(200);
-
-        //driving
-        hwMap.robot.drive(new Position2D(62, 0), false);
-        while (hwMap.navi.getDriving() && opModeIsActive()) {
-            hwMap.robot.step();
-        }
 
         telemetry.addData("detected zone", zoneVal);
         telemetry.update();
@@ -99,7 +102,7 @@ public class Detection extends ExtendedParking {
         sleep(1000);
 
         // continue with EP
-        super.runWithoutGot();
+        super.run();
     }
 
     public void runFull() {

@@ -17,12 +17,13 @@ public abstract class BaseAutonomous extends LinearOpMode {
     public void initialize() {
         hwMap = new HwMap();
         hwMap.initialize(hardwareMap);
+        hwMap.navi.setRotation_accuracy(3.0f);
+        hwMap.navi.setDriving_accuracy(1.5);
         hwMap.navi.setKeepRotation(true);
 
         // claw
         hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
         hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
-        hwMap.lift.setTargetPosition(500);
     };
 
     /* this methode runs the code */
@@ -32,8 +33,10 @@ public abstract class BaseAutonomous extends LinearOpMode {
     public void runOpMode() {
         initialize();
         waitForStart();
+        hwMap.lift.setTargetPosition(500);
         run();
 
         hwMap.lift.setTargetPosition(0);
+        hwMap.robot.stop();
     }
 }

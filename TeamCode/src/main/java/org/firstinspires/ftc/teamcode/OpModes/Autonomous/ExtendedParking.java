@@ -24,15 +24,7 @@ public class ExtendedParking extends SimpleParking {
     @Override
     public void run() {
         super.run();
-        runWithoutParking();
-    }
 
-    public void runWithoutGot() {
-        super.runWithoutGot();
-        runWithoutParking();
-    }
-
-    protected void runWithoutParking() {
         // scoring
         switch (zoneVal){
             case LEFT:
@@ -58,24 +50,24 @@ public class ExtendedParking extends SimpleParking {
         hwMap.intake_lifter.setPosition(hwMap.intake_lifter_up);
 
         //drive exact to board
-        hwMap.robot.drive(new Position2D(15, 0));
+        hwMap.robot.drive(new Position2D(10, 0));
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }
-        sleep(100);
+        sleep(1000);
 
         // intake open
         hwMap.claw_servo1.setPosition(hwMap.claw_servo_open);
-        hwMap.claw_servo2.setPosition(-hwMap.claw_servo_open);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo_closed);
 
-        sleep(4000);
+        sleep(1000);
 
         // intake close
         hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
-        hwMap.claw_servo2.setPosition(-hwMap.claw_servo_closed);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
 
         // drive back
-        hwMap.robot.drive(new Position2D(-15.0, 0.0));
+        hwMap.robot.drive(new Position2D(-10.0, 0.0));
         while (opModeIsActive() && hwMap.navi.getDriving()) {
             hwMap.robot.step();
         }
@@ -88,7 +80,5 @@ public class ExtendedParking extends SimpleParking {
         while (opModeIsActive() && hwMap.lift.isBusy()) {
             sleep(100);
         }
-
-        hwMap.robot.stop();
     }
 }
