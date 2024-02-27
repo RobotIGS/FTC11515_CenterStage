@@ -38,7 +38,9 @@ public class SimpleLift {
      * sets the current position as the start (min) position
      */
     public void setCurrentAsStartPosition() {
-        start_position = motor.getCurrentPosition();
+        int delta = start_position - motor.getCurrentPosition();
+        start_position -= delta;
+        end_position -= delta;
     }
 
     /**
@@ -113,6 +115,16 @@ public class SimpleLift {
             }
             motor.setPower(idle_power);
         }
+    }
+
+    /**
+     * set power of lift motor without keeping the lift in the set interval
+     * @param power power of the lift motor
+     */
+    public void setRawPower(double power) {
+        if (motor.getMode() != DcMotor.RunMode.RUN_USING_ENCODER)
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setPower(steps_negative_is_up ? -power : power);
     }
 
     /**

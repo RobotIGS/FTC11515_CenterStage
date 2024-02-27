@@ -53,6 +53,7 @@ public class FullControl extends BaseTeleOp {
                 if (hwMap.intake_motor.getPower() != 0.0)
                     hwMap.intake_motor.setPower(0.0);
                 else {
+                    // make sure that the claw is closed when using the intake
                     hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
                     hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
                     hwMap.intake_motor.setPower(1.0);
@@ -71,9 +72,15 @@ public class FullControl extends BaseTeleOp {
         let the lift hold its current position and give up
         control (set new position to hold) on stick movement.
          */
-        hwMap.lift.setPower(-gamepad2.right_stick_y);
-        if (gamepad2.y) {
-            hwMap.lift.setTargetPosition(500);
+        if (!gamepad2.a) {
+            hwMap.lift.setPower(-gamepad2.right_stick_y);
+            if (gamepad2.y) {
+                hwMap.lift.setTargetPosition(500);
+            }
+        } else {
+            hwMap.lift.setRawPower(-gamepad2.right_stick_y);
+            if (gamepad2.x)
+                hwMap.lift.setCurrentAsStartPosition();
         }
 
         /* SHOOTING */
