@@ -1,17 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.HwMap;
 
 @TeleOp(name = "FullControl", group = "FTC")
 public class FullControl extends BaseTeleOp {
     protected HwMap hwMap = new HwMap();
-
-    // shoot
-    private Servo servo3;
 
     // driving speeds
     protected final double speed_full = 0.5;
@@ -22,13 +17,10 @@ public class FullControl extends BaseTeleOp {
     public void initialize() {
         hwMap.initialize(hardwareMap);
 
-        // shoot
-        servo3 = hardwareMap.get(Servo.class, "shooter");
-
         // set start position claw
-        hwMap.intake_lifter.setPosition(hwMap.intake_lifter_min);
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo1_open);
+        hwMap.intake_lifter.setPosition(hwMap.intake_lifter_down);
+        hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
     }
 
     @Override
@@ -38,31 +30,41 @@ public class FullControl extends BaseTeleOp {
         {
             // claw open
             if (gamepad2.left_trigger != 0) {
-                hwMap.claw_servo1.setPosition(hwMap.claw_servo1_open);
-                hwMap.claw_servo2.setPosition(hwMap.claw_servo1_closed);
+                hwMap.claw_servo1.setPosition(hwMap.claw_servo_open);
+                hwMap.claw_servo2.setPosition(hwMap.claw_servo_closed);
             }
 
             // claw close
             if (gamepad2.right_trigger != 0) {
-                hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
-                hwMap.claw_servo2.setPosition(hwMap.claw_servo1_open);
+                hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
+                hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
             }
 
             // intake up
-            if (gamepad2.left_stick_y < 0 && hwMap.intake_lifter.getPosition() > (hwMap.intake_lifter_min -hwMap.intake_lifter_max)/2)
-                hwMap.intake_lifter.setPosition(hwMap.intake_lifter_max);
+            if (gamepad2.left_stick_y < 0)
+                hwMap.intake_lifter.setPosition(hwMap.intake_lifter_up);
 
             // intake down
-            if (gamepad2.left_stick_y > 0 && hwMap.intake_lifter.getPosition() < (hwMap.intake_lifter_min -hwMap.intake_lifter_max)/2)
-                hwMap.intake_lifter.setPosition(hwMap.intake_lifter_min);
+            if (gamepad2.left_stick_y > 0)
+                hwMap.intake_lifter.setPosition(hwMap.intake_lifter_down);
 
             // intake
-            if (gamepad1.dpad_down)
-                hwMap.intake_motor.setPower(1.0);
-            else if (gamepad1.dpad_up)
-                hwMap.intake_motor.setPower(-1.0);
-            else
-                hwMap.intake_motor.setPower(0.0);
+            if (gamepad2.dpad_up) {
+                if (hwMap.intake_motor.getPower() != 0.0)
+                    hwMap.intake_motor.setPower(0.0);
+                else {
+                    hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
+                    hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
+                    hwMap.intake_motor.setPower(1.0);
+                }
+                while (gamepad2.dpad_up) {}
+            } else if (gamepad2.dpad_down) {
+                if (hwMap.intake_motor.getPower() != 0.0)
+                    hwMap.intake_motor.setPower(0.0);
+                else
+                    hwMap.intake_motor.setPower(-1.0);
+                while (gamepad2.dpad_down) {}
+            }
         }
 
         /* LIFT
@@ -70,12 +72,15 @@ public class FullControl extends BaseTeleOp {
         control (set new position to hold) on stick movement.
          */
         hwMap.lift.setPower(-gamepad2.right_stick_y);
+        if (gamepad2.y) {
+            hwMap.lift.setTargetPosition(500);
+        }
 
         /* SHOOTING */
         if (gamepad1.dpad_down){
-            servo3.setPosition(0);
+            hwMap.shooter_servo.setPosition(hwMap.shooter_preparation);
         } else if (gamepad1.dpad_up) {
-            servo3.setPosition(0.15);
+            hwMap.shooter_servo.setPosition(hwMap.shooter_use);
         }
 
         /* DRIVING */
@@ -98,8 +103,8 @@ public class FullControl extends BaseTeleOp {
 
         // claw
         telemetry.addData("SNEAK", drive_sneak);
-        telemetry.addData("CLAW", hwMap.claw_servo1.getPosition() == hwMap.claw_servo1_open ? "OPEN" : "CLOSED");
-        telemetry.addData("CLAW", hwMap.intake_lifter.getPosition() == hwMap.intake_lifter_min ? "DOWN" : "UP");
+        telemetry.addData("CLAW", hwMap.claw_servo1.getPosition() == hwMap.claw_servo_open ? "OPEN" : "CLOSED");
+        telemetry.addData("CLAW", hwMap.intake_lifter.getPosition() == hwMap.intake_lifter_down ? "DOWN" : "UP");
         telemetry.addData("LIFT", hwMap.lift.getCurrentPosition());
         telemetry.update();
     }

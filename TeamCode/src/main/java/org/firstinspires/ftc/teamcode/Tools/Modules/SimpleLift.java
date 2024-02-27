@@ -114,4 +114,12 @@ public class SimpleLift {
             motor.setPower(idle_power);
         }
     }
+
+    /**
+     * set idle power
+     * @param power idle power
+     */
+    public void setIdlePower(double power) {
+        idle_power = power;
+    }
 }

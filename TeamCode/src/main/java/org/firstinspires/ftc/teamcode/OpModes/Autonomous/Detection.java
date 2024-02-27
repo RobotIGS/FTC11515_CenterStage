@@ -43,37 +43,37 @@ public class Detection extends ExtendedParking {
         // replace GOT and continue with EP
 
         //driving
-        hwMap.robot.drive(new Position2D(50, 0));
+        hwMap.robot.drive(new Position2D(40, 0));
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }
 
         // detection in front
         long start_time = new Date().getTime();
-        while (opModeIsActive() && start_time + 2000 >= new Date().getTime() && zoneVal == RANDOMPOSITION.UNKNOWN) {
+        while (opModeIsActive() && start_time + 2000 >= new Date().getTime() && zoneVal == ZONEVALUE.UNKNOWN) {
             List<Recognition> currentRecognitions = tfod.getRecognitions();
             if (!currentRecognitions.isEmpty())
-                zoneVal = RANDOMPOSITION.MIDDLE;
+                zoneVal = ZONEVALUE.MIDDLE;
             sleep(20);
         }
 
         // detection far pixel
-        if (zoneVal == RANDOMPOSITION.UNKNOWN) {
+        if (zoneVal == ZONEVALUE.UNKNOWN) {
             hwMap.robot.rotate(75);
             while (opModeIsActive() && hwMap.navi.getDriving()) {
                 hwMap.robot.step();
             }
 
             start_time = new Date().getTime();
-            while (opModeIsActive() && start_time + 2000 >= new Date().getTime() && zoneVal == RANDOMPOSITION.UNKNOWN) {
+            while (opModeIsActive() && start_time + 2000 >= new Date().getTime() && zoneVal == ZONEVALUE.UNKNOWN) {
                 List<Recognition> currentRecognitions = tfod.getRecognitions();
                 if (!currentRecognitions.isEmpty())
-                    zoneVal = isRed() ? RANDOMPOSITION.LEFT : RANDOMPOSITION.RIGHT;
+                    zoneVal = isRed() ? ZONEVALUE.LEFT : ZONEVALUE.RIGHT;
                 sleep(20);
             }
 
-            if (zoneVal == RANDOMPOSITION.UNKNOWN) {
-                zoneVal = isRed() ? RANDOMPOSITION.RIGHT : RANDOMPOSITION.LEFT;
+            if (zoneVal == ZONEVALUE.UNKNOWN) {
+                zoneVal = isRed() ? ZONEVALUE.RIGHT : ZONEVALUE.LEFT;
             }
         }
 
@@ -92,6 +92,11 @@ public class Detection extends ExtendedParking {
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }
+
+        telemetry.addData("detected zone", zoneVal);
+        telemetry.update();
+
+        sleep(1000);
 
         // continue with EP
         super.runWithoutGot();

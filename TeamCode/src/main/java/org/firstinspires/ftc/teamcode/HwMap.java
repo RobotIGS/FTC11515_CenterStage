@@ -25,11 +25,16 @@ public class HwMap {
     // lift
     public SimpleLift lift;
 
+    // shooter
+    public Servo shooter_servo;
+
     // limits
-    public final double claw_servo1_open = 0.0;
-    public final double claw_servo1_closed = 0.13;
-    public final double intake_lifter_min = 0.4;
-    public final double intake_lifter_max = 0.0;
+    public final double claw_servo_open = 0.13;
+    public final double claw_servo_closed = 0.0;
+    public final double intake_lifter_down = 0.0;
+    public final double intake_lifter_up = 1.0;
+    public final double shooter_preparation = 0;
+    public final double shooter_use = 0.15;
 
     public void initialize(HardwareMap hardwareMap) {
         // get chassis
@@ -52,5 +57,9 @@ public class HwMap {
 
         // lift
         lift = new SimpleLift(hardwareMap.get(DcMotor.class, "lift"), 5200, true);
+        lift.setIdlePower(0.7);
+
+        // shooter
+        shooter_servo = hardwareMap.get(Servo.class, "shooter");
     }
 }
