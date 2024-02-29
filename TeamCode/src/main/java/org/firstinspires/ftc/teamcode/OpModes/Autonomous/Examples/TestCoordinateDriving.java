@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Examples;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.OpModes.Autonomous.BaseAutonomous;
 import org.firstinspires.ftc.teamcode.Tools.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Tools.Chassis.MecanumChassis;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Tools.FieldNavigation;
 import org.firstinspires.ftc.teamcode.Tools.Robot;
 
 @Autonomous(name="Test Coordinates Driving", group="Examples")
-//@Disabled
+@Disabled
 public class TestCoordinateDriving extends BaseAutonomous {
     private Robot robot;
     private Chassis chassis;

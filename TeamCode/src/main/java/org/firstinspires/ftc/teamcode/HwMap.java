@@ -29,8 +29,12 @@ public class HwMap {
     public Servo shooter_servo;
 
     // limits
-    public final double claw_servo_open = 0.13;
-    public final double claw_servo_closed = 0.0;
+    public final double claw_servo1_open = 0.43;
+    public final double claw_servo1_closed = 0.3;
+    public final double claw_servo1_up = 0.17;
+    public final double claw_servo2_open = claw_servo1_up;
+    public final double claw_servo2_closed = claw_servo1_closed;
+    public final double claw_servo2_up = claw_servo1_open;
     public final double intake_lifter_down = 0.0;
     public final double intake_lifter_up = 1.0;
     public final double shooter_preparation = 0;

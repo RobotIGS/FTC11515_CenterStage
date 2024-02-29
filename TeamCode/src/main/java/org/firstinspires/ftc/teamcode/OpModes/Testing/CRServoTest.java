@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModes.Testing;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 @TeleOp(name = "CR Servo")
+@Disabled
 public class CRServoTest extends LinearOpMode {
     public CRServo servo;
 

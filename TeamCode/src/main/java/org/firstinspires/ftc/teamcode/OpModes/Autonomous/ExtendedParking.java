@@ -57,14 +57,14 @@ public class ExtendedParking extends SimpleParking {
         sleep(1000);
 
         // intake open
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo_open);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo_closed);
+        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_open);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo2_open);
 
         sleep(1000);
 
         // intake close
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
+        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo2_closed);
 
         // drive back
         hwMap.robot.drive(new Position2D(-10.0, 0.0));

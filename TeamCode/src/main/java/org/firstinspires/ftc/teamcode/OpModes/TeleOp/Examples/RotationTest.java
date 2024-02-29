@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp.Examples;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.OpModes.TeleOp.BaseTeleOp;
 import org.firstinspires.ftc.teamcode.Tools.Chassis.Chassis;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Tools.FieldNavigation;
 import org.firstinspires.ftc.teamcode.Tools.Robot;
 
 @TeleOp(name = "Test Rotation", group = "Examples")
+@Disabled
 public class RotationTest extends BaseTeleOp {
     // robot
     protected Robot robot;

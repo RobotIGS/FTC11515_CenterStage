@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes.Testing;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.OpModes.TeleOp.BaseTeleOp;
 
 @TeleOp
+@Disabled
 public class ClawTest extends BaseTeleOp {
     private Servo servo1;
     private Servo servo2;

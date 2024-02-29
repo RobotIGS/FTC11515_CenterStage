@@ -9,8 +9,8 @@ public class FullControl extends BaseTeleOp {
     protected HwMap hwMap = new HwMap();
 
     // driving speeds
-    protected final double speed_full = 0.5;
-    protected final double speed_sneak = 0.25;
+    protected final double speed_full = 0.75;
+    protected final double speed_sneak = 0.3;
     protected boolean drive_sneak = false;
 
     @Override
@@ -19,8 +19,8 @@ public class FullControl extends BaseTeleOp {
 
         // set start position claw
         hwMap.intake_lifter.setPosition(hwMap.intake_lifter_down);
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
+        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo2_closed);
     }
 
     @Override
@@ -30,14 +30,20 @@ public class FullControl extends BaseTeleOp {
         {
             // claw open
             if (gamepad2.left_trigger != 0) {
-                hwMap.claw_servo1.setPosition(hwMap.claw_servo_open);
-                hwMap.claw_servo2.setPosition(hwMap.claw_servo_closed);
+                hwMap.claw_servo1.setPosition(hwMap.claw_servo1_open);
+                hwMap.claw_servo2.setPosition(hwMap.claw_servo2_open);
             }
 
             // claw close
             if (gamepad2.right_trigger != 0) {
-                hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
-                hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
+                hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
+                hwMap.claw_servo2.setPosition(hwMap.claw_servo2_closed);
+            }
+
+            // claw up
+            if (gamepad2.dpad_left) {
+                hwMap.claw_servo1.setPosition(hwMap.claw_servo1_up);
+                hwMap.claw_servo2.setPosition(hwMap.claw_servo2_up);
             }
 
             // intake up
@@ -54,8 +60,8 @@ public class FullControl extends BaseTeleOp {
                     hwMap.intake_motor.setPower(0.0);
                 else {
                     // make sure that the claw is closed when using the intake
-                    hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
-                    hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
+                    hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
+                    hwMap.claw_servo2.setPosition(hwMap.claw_servo2_closed);
                     hwMap.intake_motor.setPower(1.0);
                 }
                 while (gamepad2.dpad_up) {}
@@ -110,7 +116,7 @@ public class FullControl extends BaseTeleOp {
 
         // claw
         telemetry.addData("SNEAK", drive_sneak);
-        telemetry.addData("CLAW", hwMap.claw_servo1.getPosition() == hwMap.claw_servo_open ? "OPEN" : "CLOSED");
+        telemetry.addData("CLAW", hwMap.claw_servo1.getPosition() == hwMap.claw_servo1_open ? "OPEN" : (hwMap.claw_servo1.getPosition() == hwMap.claw_servo1_up ? "UP" : "CLOSED"));
         telemetry.addData("CLAW", hwMap.intake_lifter.getPosition() == hwMap.intake_lifter_down ? "DOWN" : "UP");
         telemetry.addData("LIFT", hwMap.lift.getCurrentPosition());
         telemetry.update();

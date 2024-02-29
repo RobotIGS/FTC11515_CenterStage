@@ -22,8 +22,8 @@ public abstract class BaseAutonomous extends LinearOpMode {
         hwMap.navi.setKeepRotation(true);
 
         // claw
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo_closed);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo_open);
+        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
+        hwMap.claw_servo2.setPosition(hwMap.claw_servo2_closed);
     };
 
     /* this methode runs the code */
