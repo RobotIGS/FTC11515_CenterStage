@@ -89,7 +89,7 @@ public class Detection extends ExtendedParking {
         telemetry.update();
 
         sleep(1000);
-        
+
         // continue with EP
         super.run();
     }

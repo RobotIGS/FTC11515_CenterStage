@@ -25,20 +25,34 @@ public class HwMap {
     // lift
     public SimpleLift lift;
 
-    // shooter
-    public Servo shooter_servo;
+    // paper shooter
+    public Servo paper_servo;
+
+    // pixel shooter
+    public Servo pixel_shooter_servo;
+
+    // pull up
+    public DcMotor pull_up_1;
+    public DcMotor pull_up_2;
+    public Servo pull_up_servo;
 
     // limits
-    public final double claw_servo1_open = 0.43;
+    public final double claw_servo1_open = 0.2; // 0.43
     public final double claw_servo1_closed = 0.3;
-    public final double claw_servo1_up = 0.17;
+    public final double claw_servo1_up = 0.05; // 0.17
     public final double claw_servo2_open = claw_servo1_up;
     public final double claw_servo2_closed = claw_servo1_closed;
     public final double claw_servo2_up = claw_servo1_open;
     public final double intake_lifter_down = 0.0;
     public final double intake_lifter_up = 1.0;
-    public final double shooter_preparation = 0;
-    public final double shooter_use = 0.15;
+    public final double paper_shooter_preparation = 0;
+    public final double paper_shooter_use = 0.15;
+
+    public final double pixel_shooter_a = 0.2;
+    public final double pixel_shooter_b = 1.0;
+
+    public final double pull_up_a = 0.0;
+    public final double pull_up_b = 0.4;
 
     public void initialize(HardwareMap hardwareMap) {
         // get chassis
@@ -63,7 +77,15 @@ public class HwMap {
         lift = new SimpleLift(hardwareMap.get(DcMotor.class, "lift"), 5200, true);
         lift.setIdlePower(0.7);
 
-        // shooter
-        shooter_servo = hardwareMap.get(Servo.class, "shooter");
+        // paper shooter
+        paper_servo = hardwareMap.get(Servo.class, "shooter");
+
+        // paper shooter
+        pixel_shooter_servo = hardwareMap.get(Servo.class, "pixel_shooter");
+
+        // pull up
+        pull_up_1 = hardwareMap.get(DcMotor.class, "pull_up1");
+        pull_up_2 = hardwareMap.get(DcMotor.class, "pull_up2");
+        pull_up_servo = hardwareMap.get(Servo.class, "pull_up_servo");
     }
 }
