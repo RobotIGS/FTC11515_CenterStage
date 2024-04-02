@@ -9,11 +9,6 @@ public abstract class BaseTeleOp extends LinearOpMode {
     /* initialize the OpMode (TeleOp) */
     public void initialize(){
         hwMap.initialize(hardwareMap);
-
-        // set start position claw
-        hwMap.intake_lifter.setPosition(hwMap.intake_lifter_down);
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo2_closed);
     }
 
     /* this methode runs the code */

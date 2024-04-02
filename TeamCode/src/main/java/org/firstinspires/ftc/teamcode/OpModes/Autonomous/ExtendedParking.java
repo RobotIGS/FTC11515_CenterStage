@@ -48,23 +48,26 @@ public class ExtendedParking extends SimpleParking {
 
         // intake up
         hwMap.intake_lifter.setPosition(hwMap.intake_lifter_up);
+        sleep(700);
 
         //drive exact to board
-        hwMap.robot.drive(new Position2D(10, 0));
+        hwMap.robot.drive(new Position2D(20, 0));
         while (hwMap.navi.getDriving() && opModeIsActive()) {
             hwMap.robot.step();
         }
-        sleep(1000);
+        sleep(700);
 
         // intake open
         hwMap.claw_servo1.setPosition(hwMap.claw_servo1_open);
         hwMap.claw_servo2.setPosition(hwMap.claw_servo2_open);
+        hwMap.intake_motor.setPower(1.0);
 
-        sleep(1000);
+        sleep(1100);
 
         // intake close
         hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
         hwMap.claw_servo2.setPosition(hwMap.claw_servo2_closed);
+        hwMap.intake_motor.setPower(0.0);
 
         // drive back
         hwMap.robot.drive(new Position2D(-10.0, 0.0));
@@ -76,7 +79,30 @@ public class ExtendedParking extends SimpleParking {
         hwMap.intake_lifter.setPosition(hwMap.intake_lifter_down);
 
         // lift down
-        hwMap.lift.setTargetPosition(0);
+        hwMap.lift.setTargetPosition(500);
+        while (opModeIsActive() && hwMap.lift.isBusy()) {
+            sleep(100);
+        }
+
+        hwMap.navi.setDriving_accuracy(2.5);
+        hwMap.navi.setKeepRotation(false);
+
+        // drive to the side
+        hwMap.robot.drive(new Position2D(0.0, isRed() ? -50 : 50));
+        while (opModeIsActive() && hwMap.navi.getDriving()) {
+            hwMap.robot.step();
+            sleep(100);
+        }
+
+        // drive to the side
+        hwMap.robot.drive(new Position2D(10.0, 0.0));
+        while (opModeIsActive() && hwMap.navi.getDriving()) {
+            hwMap.robot.step();
+            sleep(100);
+        }
+
+        // lift down
+        hwMap.lift.setTargetPosition(500);
         while (opModeIsActive() && hwMap.lift.isBusy()) {
             sleep(100);
         }

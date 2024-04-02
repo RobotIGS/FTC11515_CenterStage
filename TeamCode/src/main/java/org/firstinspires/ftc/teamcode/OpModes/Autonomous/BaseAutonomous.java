@@ -20,10 +20,6 @@ public abstract class BaseAutonomous extends LinearOpMode {
         hwMap.navi.setRotation_accuracy(3.0f);
         hwMap.navi.setDriving_accuracy(1.5);
         hwMap.navi.setKeepRotation(true);
-
-        // claw
-        hwMap.claw_servo1.setPosition(hwMap.claw_servo1_closed);
-        hwMap.claw_servo2.setPosition(hwMap.claw_servo2_closed);
     };
 
     /* this methode runs the code */

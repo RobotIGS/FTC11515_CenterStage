@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.OpModes.Testing;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.OpModes.TeleOp.BaseTeleOp;
 
 @TeleOp(name = "HangingTest", group = "TESTS")
+@Disabled
 public class HangingTest extends BaseTeleOp {
     @Override
     public void initialize() {

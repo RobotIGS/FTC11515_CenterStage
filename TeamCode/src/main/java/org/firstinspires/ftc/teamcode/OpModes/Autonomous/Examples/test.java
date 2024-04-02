@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous.Examples;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.OpModes.Autonomous.BaseAutonomous;
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
 @Autonomous(name = "TEST", group = "FTC")
+@Disabled
 public class test extends BaseAutonomous {
 
     @Override

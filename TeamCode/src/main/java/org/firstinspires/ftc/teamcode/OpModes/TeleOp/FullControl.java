@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 @TeleOp(name = "FullControl", group = "FTC")
 public class FullControl extends BaseTeleOp {
     // driving speeds
-    protected final double speed_full = 0.75;
+    protected final double speed_full = 0.55;
     protected final double speed_sneak = 0.3;
     protected boolean drive_sneak = false;
     protected boolean stop_instantly = false;
@@ -92,6 +92,7 @@ public class FullControl extends BaseTeleOp {
         }
 
         /* PULL_UP */
+        /*
         if (gamepad1.dpad_left) {
             hwMap.pull_up_1.setPower(1);
             hwMap.pull_up_2.setPower(-1);
@@ -102,27 +103,32 @@ public class FullControl extends BaseTeleOp {
             hwMap.pull_up_1.setPower(0);
             hwMap.pull_up_2.setPower(0);
         }
+        */
 
         /* PIXEL SHOOTING */
+        /*
         if (gamepad2.a){
             hwMap.pixel_shooter_servo.setPosition(hwMap.pixel_shooter_a);
         } else if (gamepad2.b) {
             hwMap.pixel_shooter_servo.setPosition(hwMap.pixel_shooter_b);
         }
+         */
 
         /* PULL UP SERVO */
+        /*
         if (gamepad1.a) {
             hwMap.pull_up_servo.setPosition(hwMap.pull_up_a);
         } else if (gamepad1.b) {
             hwMap.pull_up_servo.setPosition(hwMap.pull_up_b);
         }
+        */
 
         /* DRIVING */
         if (gamepad1.left_bumper || gamepad1.right_bumper) {
             drive_sneak = !drive_sneak;
             while (gamepad1.left_bumper || gamepad1.right_bumper) {}
         }
-        if (gamepad1.left_stick_y == 0 && gamepad1.left_stick_x == 0 && (gamepad1.left_trigger-gamepad1.right_trigger) == 0){
+        if (gamepad1.left_stick_y == 0 && gamepad1.right_stick_x == 0 && (gamepad1.left_trigger-gamepad1.right_trigger) == 0){
             if (!stop_instantly){
                 hwMap.robot.drive(new Position2D(0, 0));
                 stop_instantly = true;
@@ -131,7 +137,7 @@ public class FullControl extends BaseTeleOp {
             if (stop_instantly) stop_instantly = false;
             hwMap.robot.setSpeed(
                     -gamepad1.left_stick_y * (drive_sneak ? speed_sneak : speed_full),
-                    -gamepad1.left_stick_x * (drive_sneak ? speed_sneak : speed_full),
+                    -gamepad1.right_stick_x * (drive_sneak ? speed_sneak : speed_full),
                     (gamepad1.left_trigger-gamepad1.right_trigger) * (drive_sneak ? speed_sneak : speed_full));
         }
 
