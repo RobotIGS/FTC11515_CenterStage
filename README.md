@@ -1,3 +1,9 @@
+![gradle build](https://github.com/RobotIGS/FTC11515_CenterStage/actions/workflows/gradle.yml/badge.svg)
+
+
+---
+
+
 ## NOTICE
 
 This repository contains the public FTC SDK for the CENTERSTAGE (2023-2024) competition season.
